@@ -1,7 +1,6 @@
 import math
 import random
 from nltk.util import ngrams
-from src import tokenization
 
 # sentence start and end
 SENTENCE_START = "<s>"
@@ -17,9 +16,9 @@ class MixgramModel:
         self.highest_order = 3
 
     def calculate_mixgram_probabilty(self, previous_to_previous_word, previous_word, word):
-        trigram_probability = self._trigram_model.calculate_trigram_probabilty(previous_to_previous_word, previous_word, word)
-        bigram_probability = self._bigram_model.calculate_bigram_probabilty(previous_word, word)
-        unigram_probability = self._unigram_model.calculate_unigram_probability(word)
+        trigram_probability = self._trigram_model.cal_prob_good_turing_trigram(previous_to_previous_word, previous_word, word)
+        bigram_probability = self._bigram_model.cal_prob_good_turing_bigram(previous_word, word)
+        unigram_probability = self._unigram_model.cal_prob_good_turing(word)
         mixgram_probability = self._lambdas[0] * unigram_probability + self._lambdas[1] * bigram_probability \
                               + self._lambdas[2] * trigram_probability
         # print(mixgram_probability)
@@ -31,8 +30,8 @@ class MixgramModel:
                           right_pad_symbol=SENTENCE_END)
         for trigram in trigrams:
                 mixgram_word_probability = self.calculate_mixgram_probabilty(trigram[0], trigram[1], trigram[2])
-                if mixgram_word_probability != 0:
-                    mixgram_sentence_probability_log_sum += math.log(mixgram_word_probability, 2)
+                # if mixgram_word_probability != 0:
+                mixgram_sentence_probability_log_sum += math.log(mixgram_word_probability, 2)
         return math.pow(2, mixgram_sentence_probability_log_sum) if normalize_probability \
             else mixgram_sentence_probability_log_sum
 
@@ -52,41 +51,33 @@ class MixgramModel:
                 mixgram_sentence_probability_log_sum -= float('-inf')
         return math.pow(2, mixgram_sentence_probability_log_sum / number_of_mixgrams)
 
-    def _get_trigram_probs(self):
-        return self._trigram_model.get_trigram_frequency_list()
-
-    def generate_sentence(self, min_length = 8):
-        sent = []
-        probs = self._get_trigram_probs()
-        # print(probs)
+    def generate_sentence(self, min_length=8):
+        frequencies = self._trigram_model.get_trigram_frequency_list()
+        sent = [SENTENCE_START] * (self.highest_order - 1)
         while len(sent) < min_length + self.highest_order:
-            sent = [SENTENCE_START] * (self.highest_order - 1)
-            # Append first to avoid case where start & end symbal are same
-            sent.append(self._generate_next_word(sent, probs))
-            while sent[-1] != SENTENCE_END:
-                sent.append(self._generate_next_word(sent, probs))
+            word = self._generate_next_word(sent, frequencies)
+            sent.append(word)
         sent = ' '.join(sent[(self.highest_order - 1):(self.highest_order - 1 + min_length)])
         return sent
 
-    def _generate_next_word(self, sent, probs):
+    def _generate_next_word(self, sent, frequencies):
         context = tuple(self._get_context(sent))
-        pos_ngrams = list(
-            (ngram, logprob) for ngram, logprob in probs.items()
+        ngrams_with_freq = list(
+            (ngram, freq) for ngram, freq in frequencies.items()
             if ngram[:-1] == context)
-        # print(pos_ngrams)
-        # Normalize to get conditional probability.
-        # Subtract max logprob from all logprobs to avoid underflow.
-        _, max_logprob = max(pos_ngrams, key=lambda x: x[1])
-        # print(max_logprob)
-        pos_ngrams = list((ngram, math.exp(prob - max_logprob)) for ngram, prob in pos_ngrams)
-        total_prob = sum(prob for ngram, prob in pos_ngrams)
-        pos_ngrams = list((ngram, prob / total_prob) for ngram, prob in pos_ngrams)
+        if len(ngrams_with_freq) == 0:
+            rand_int = random.randint(0, len(frequencies))
+            return list(frequencies.keys())[rand_int][1]
+        _, max_freq = max(ngrams_with_freq, key=lambda x: x[1])
+        ngrams_with_freq = list((ngram, math.exp(freq - max_freq)) for ngram, freq in ngrams_with_freq)
+        total_freq = sum(freq for ngram, freq in ngrams_with_freq)
+        ngrams_with_prob = list((ngram, freq / total_freq) for ngram, freq in ngrams_with_freq)
         rand = random.random()
-        for ngram, prob in pos_ngrams:
+        for ngram, prob in ngrams_with_prob:
             rand -= prob
             if rand < 0:
                 return ngram[-1]
-        return ngram[-1]
+        return ngrams_with_prob[0][0][-1]
 
     def _get_context(self, sentence):
         return sentence[(len(sentence) - self.highest_order + 1):]
