@@ -16,24 +16,20 @@ class MixgramModel:
         self.highest_order = 3
 
     def calculate_mixgram_probabilty(self, previous_to_previous_word, previous_word, word):
-        trigram_probability = self._trigram_model.cal_prob_good_turing_trigram(previous_to_previous_word, previous_word, word)
-        bigram_probability = self._bigram_model.cal_prob_good_turing_bigram(previous_word, word)
-        unigram_probability = self._unigram_model.cal_prob_good_turing(word)
+        trigram_probability = self._trigram_model.calculate_trigram_probabilty(previous_to_previous_word, previous_word, word)
+        bigram_probability = self._bigram_model.calculate_bigram_probabilty(previous_word, word)
+        unigram_probability = self._unigram_model.calculate_unigram_probability(word)
         mixgram_probability = self._lambdas[0] * unigram_probability + self._lambdas[1] * bigram_probability \
                               + self._lambdas[2] * trigram_probability
-        # print(mixgram_probability)
         return mixgram_probability
 
-    def calculate_mixgram_sentence_probability(self, sentence, normalize_probability=False):
+    def calculate_mixgram_sentence_probability(self, sentence):
         mixgram_sentence_probability_log_sum = 0
-        trigrams = ngrams(sentence, 3, pad_left=True, pad_right=True, left_pad_symbol=SENTENCE_START,
-                          right_pad_symbol=SENTENCE_END)
+        trigrams = ngrams(sentence, 3, pad_left=True, pad_right=True, left_pad_symbol=SENTENCE_START, right_pad_symbol=SENTENCE_END)
         for trigram in trigrams:
-                mixgram_word_probability = self.calculate_mixgram_probabilty(trigram[0], trigram[1], trigram[2])
-                # if mixgram_word_probability != 0:
-                mixgram_sentence_probability_log_sum += math.log(mixgram_word_probability, 2)
-        return math.pow(2, mixgram_sentence_probability_log_sum) if normalize_probability \
-            else mixgram_sentence_probability_log_sum
+            mixgram_word_probability = self.calculate_mixgram_probabilty(trigram[0], trigram[1], trigram[2])
+            mixgram_sentence_probability_log_sum += math.log(mixgram_word_probability, 2)
+        return mixgram_sentence_probability_log_sum
 
     def calculate_number_of_mixgrams(self, sentences):
         mixgram_count = 0
@@ -51,6 +47,7 @@ class MixgramModel:
                 mixgram_sentence_probability_log_sum -= float('-inf')
         return math.pow(2, mixgram_sentence_probability_log_sum / number_of_mixgrams)
 
+    # Generate sentence API
     def generate_sentence(self, min_length=8):
         frequencies = self._trigram_model.get_trigram_frequency_list()
         sent = [SENTENCE_START] * (self.highest_order - 1)

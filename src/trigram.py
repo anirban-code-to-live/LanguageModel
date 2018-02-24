@@ -5,52 +5,48 @@ from nltk.probability import FreqDist
 from nltk.probability import SimpleGoodTuringProbDist
 import random
 
-# used for unseen words in training vocabularies
-UNK = None
 # sentence start and end
 SENTENCE_START = "<s>"
 SENTENCE_END = "</s>"
 
 
 class TrigramModel(bigram.BigramModel):
-    def __init__(self, sentences, words, smoothing=False):
+    def __init__(self, sentences, words, smoothing="AddOne"):
         bigram.BigramModel.__init__(self, sentences, words, smoothing)
         self.highest_order = 3
         self.trigram_frequencies = dict()
         self.unique_trigrams = set()
         for sentence in sentences:
-            # words = tokenization.tokenize_words(sentence)
             trigrams = ngrams(sentence, 3, pad_left=True, pad_right=True, left_pad_symbol=SENTENCE_START, right_pad_symbol= SENTENCE_END)
             for trigram in trigrams:
                 self.trigram_frequencies[trigram] = self.trigram_frequencies.get(trigram, 0) + 1
                 self.unique_trigrams.add(trigram)
-        # we subtracted two for the Unigram model as the unigram_frequencies dictionary
-        # contains values for SENTENCE_START and SENTENCE_END but these need to be included in Bigram
         self.unique__trigram_words = len(self.unique_trigrams)
-        self._good_turing_estimator = SimpleGoodTuringProbDist(FreqDist(self.trigram_frequencies))
-
-    def cal_prob_good_turing_trigram(self, previous_to_previous_word, previous_word, word):
-        return self._good_turing_estimator.prob((previous_to_previous_word, previous_word, word))
+        self._trigram_good_turing_estimator = SimpleGoodTuringProbDist(FreqDist(self.trigram_frequencies))
 
     def calculate_trigram_probabilty(self, previous_to_previous_word, previous_word, word):
-        trigram_word_probability_numerator = self.trigram_frequencies.get((previous_to_previous_word, previous_word, word), 0)
-        trigram_word_probability_denominator = self.bigram_frequencies.get((previous_to_previous_word, previous_word), 0)
-        if self.smoothing:
-            trigram_word_probability_numerator += 0.001*1
-            trigram_word_probability_denominator += 0.001*self.unique__trigram_words
-        return 0.0 if trigram_word_probability_numerator == 0 or trigram_word_probability_denominator == 0 else float(
-            trigram_word_probability_numerator) / float(trigram_word_probability_denominator)
+        if self.smoothing == "GoodTuring":
+            return self._trigram_good_turing_estimator.prob((previous_to_previous_word, previous_word, word))
+        elif self.smoothing == "AddOne":
+            trigram_word_probability_numerator = self.trigram_frequencies.get(
+                (previous_to_previous_word, previous_word, word), 0) + 1
+            trigram_word_probability_denominator = self.bigram_frequencies.get(
+                (previous_to_previous_word, previous_word), 0) + self.unique__trigram_words
+            return float(trigram_word_probability_numerator) / float(trigram_word_probability_denominator)
+        else:
+            try:
+                raise ValueError("Supported smoothing techniques - 1. AddOne 2. GoodTuring")
+            except ValueError as error:
+                print(error.args)
 
-    def calculate_trigram_sentence_probability(self, sentence, normalize_probability=False):
+    def calculate_trigram_sentence_probability(self, sentence):
         trigram_sentence_probability_log_sum = 0
         trigrams = ngrams(sentence, 3, pad_left=True, pad_right=True, left_pad_symbol=SENTENCE_START,
                           right_pad_symbol=SENTENCE_END)
         for trigram in trigrams:
-                trigram_word_probability = self.cal_prob_good_turing_trigram(trigram[0], trigram[1], trigram[2])
-                # if trigram_word_probability != 0:
+                trigram_word_probability = self.calculate_trigram_probabilty(trigram[0], trigram[1], trigram[2])
                 trigram_sentence_probability_log_sum += math.log(trigram_word_probability, 2)
-        return 0.0 if trigram_sentence_probability_log_sum == 0 else math.pow(2, trigram_sentence_probability_log_sum) \
-            if normalize_probability else trigram_sentence_probability_log_sum
+        return trigram_sentence_probability_log_sum
 
     def calculate_number_of_trigrams(self, sentences):
         trigram_count = 0
