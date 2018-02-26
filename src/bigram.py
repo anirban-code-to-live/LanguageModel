@@ -10,8 +10,8 @@ SENTENCE_END = "</s>"
 
 
 class BigramModel(unigram.UnigramModel):
-    def __init__(self, sentences, words, smoothing="AddOne"):
-        unigram.UnigramModel.__init__(self, words, smoothing)
+    def __init__(self, sentences, smoothing="AddOne"):
+        unigram.UnigramModel.__init__(self, sentences, smoothing)
         self.bigram_frequencies = dict()
         self.unique_bigrams = set()
         for sentence in sentences:

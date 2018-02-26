@@ -1,6 +1,7 @@
 import math
 from nltk.probability import SimpleGoodTuringProbDist
 from nltk.probability import FreqDist
+from nltk.util import ngrams
 
 # used for unseen words in training vocabularies
 UNK = None
@@ -10,17 +11,19 @@ SENTENCE_END = "</s>"
 
 
 class UnigramModel:
-    def __init__(self, words, smoothing="AddOne"):
+    def __init__(self, sentences, smoothing="AddOne"):
         self.unigram_frequencies = dict()
         self.corpus_length = 0
-        for word in words:
-            self.unigram_frequencies[word] = self.unigram_frequencies.get(word, 0) + 1
-            if word != SENTENCE_START and word != SENTENCE_END:
-                self.corpus_length += 1
+        for sentence in sentences:
+            unigrams = ngrams(sentence, 1, pad_left=False, pad_right=False)
+            for unigram in unigrams:
+                self.unigram_frequencies[unigram] = self.unigram_frequencies.get(unigram, 0) + 1
+                if unigram != SENTENCE_START and unigram != SENTENCE_END:
+                    self.corpus_length += 1
         # subtract 2 because unigram_frequencies dictionary contains values for SENTENCE_START and SENTENCE_END
         self.unique_words = len(self.unigram_frequencies) - 2
         self.smoothing = smoothing
-        self._unigram_good_turing = SimpleGoodTuringProbDist(freqdist=FreqDist(words))
+        self._unigram_good_turing = SimpleGoodTuringProbDist(freqdist=FreqDist(self.unigram_frequencies))
 
     def calculate_unigram_probability(self, word):
         if self.smoothing == "GoodTuring":

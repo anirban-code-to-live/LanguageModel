@@ -11,8 +11,8 @@ SENTENCE_END = "</s>"
 
 
 class TrigramModel(bigram.BigramModel):
-    def __init__(self, sentences, words, smoothing="AddOne"):
-        bigram.BigramModel.__init__(self, sentences, words, smoothing)
+    def __init__(self, sentences, smoothing="AddOne"):
+        bigram.BigramModel.__init__(self, sentences, smoothing)
         self.highest_order = 3
         self.trigram_frequencies = dict()
         self.unique_trigrams = set()
