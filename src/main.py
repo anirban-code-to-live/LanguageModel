@@ -2,6 +2,7 @@ from src.bigram import BigramModel
 from src.unigram import UnigramModel
 from src.trigram import TrigramModel
 from nltk import ngrams
+import nltk
 from src.mixgram import MixgramModel
 import numpy as np
 from nltk.corpus import gutenberg
@@ -15,6 +16,10 @@ if __name__ == '__main__':
     if not os.path.exists("../output_data"):
         os.makedirs("../output_data")
 
+    nltk.download('punkt')
+    nltk.download('gutenberg')
+    nltk.download('brown')
+
     # Sentences generated from with Gutenberg corpus
     sentences_gutenberg = gutenberg.sents()
     unigram_model = UnigramModel(sentences_gutenberg, smoothing="GoodTuring")
@@ -27,7 +32,7 @@ if __name__ == '__main__':
         sent = mixgram_model.generate_sentence(min_length=10)
         perplexity = mixgram_model.calculate_mixgram_perplexity(sent)
         sent_with_perplexity[sent] = perplexity
-    random_sent = random.choice(sent_with_perplexity)
+    random_sent = random.choice(list(sent_with_perplexity.keys()))
     print(random_sent)
     sent_file = open('sentence.txt', 'w')
     sent_file.write(str(random_sent))

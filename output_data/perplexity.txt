@@ -1,0 +1,215 @@
+Train Corpus :: Gutenberg, Validation Corpus:: Brown 
+Unigram Validation Size :: 50 Perplexity :: 1513.1103289370064
+Bigram Validation Size :: 50 Perplexity :: 317.0701853402852
+Trigram Validation Size :: 50 Perplexity :: 15.38669327881268
+Mixgram Validation Size :: 50 Perplexity :: 10.018871645261948
+
+Unigram Validation Size :: 200 Perplexity :: 1565.3723563303342
+Bigram Validation Size :: 200 Perplexity :: 334.7076324250317
+Trigram Validation Size :: 200 Perplexity :: 15.112984236489167
+Mixgram Validation Size :: 200 Perplexity :: 9.462831821752328
+
+Unigram Validation Size :: 500 Perplexity :: 1570.3010775206312
+Bigram Validation Size :: 500 Perplexity :: 428.57604643865903
+Trigram Validation Size :: 500 Perplexity :: 20.526067868031053
+Mixgram Validation Size :: 500 Perplexity :: 11.174891710609112
+
+Unigram Validation Size :: 1000 Perplexity :: 1486.7111444578786
+Bigram Validation Size :: 1000 Perplexity :: 445.6706768340532
+Trigram Validation Size :: 1000 Perplexity :: 22.12549855857455
+Mixgram Validation Size :: 1000 Perplexity :: 11.525632569703246
+
+
+
+Train Corpus :: Brown, Validation Corpus:: Gutenberg 
+Unigram Validation Size :: 50 Perplexity :: 780.1905091302441
+
+Bigram Validation Size :: 50 Perplexity :: 1529.5868978710048
+
+Trigram Validation Size :: 50 Perplexity :: 39.43472739938988
+
+Mixgram Validation Size :: 50 Perplexity :: 13.3977791499721
+
+Unigram Validation Size :: 200 Perplexity :: 679.1398323443582
+
+Bigram Validation Size :: 200 Perplexity :: 1545.514001312527
+
+Trigram Validation Size :: 200 Perplexity :: 55.74214726891671
+
+Mixgram Validation Size :: 200 Perplexity :: 16.59189549016945
+
+Unigram Validation Size :: 500 Perplexity :: 699.0754035963128
+
+Bigram Validation Size :: 500 Perplexity :: 1387.1509739708147
+
+Trigram Validation Size :: 500 Perplexity :: 51.38523612982779
+
+Mixgram Validation Size :: 500 Perplexity :: 16.13209633125865
+
+Unigram Validation Size :: 1000 Perplexity :: 694.8314815484499
+
+Bigram Validation Size :: 1000 Perplexity :: 1314.0077967434347
+
+Trigram Validation Size :: 1000 Perplexity :: 52.933944851583
+
+Mixgram Validation Size :: 1000 Perplexity :: 16.36246499079901
+
+
+
+
+Train Corpus :: Gutenberg + Brown, Validation Corpus:: Brown 
+Unigram Validation Size :: 50 Perplexity :: 130.78623111300283
+
+Bigram Validation Size :: 50 Perplexity :: 652.8953653577016
+
+Trigram Validation Size :: 50 Perplexity :: 48.98910169215661
+
+Mixgram Validation Size :: 50 Perplexity :: 15.175253474172996
+
+Unigram Validation Size :: 200 Perplexity :: 130.78623111300257
+
+Bigram Validation Size :: 200 Perplexity :: 682.0478281109215
+
+Trigram Validation Size :: 200 Perplexity :: 41.0434513981685
+
+Mixgram Validation Size :: 200 Perplexity :: 13.767780515201533
+
+Unigram Validation Size :: 500 Perplexity :: 130.78623111300274
+
+Bigram Validation Size :: 500 Perplexity :: 837.6999886444729
+
+Trigram Validation Size :: 500 Perplexity :: 59.41308988647393
+
+Mixgram Validation Size :: 500 Perplexity :: 16.47214330784627
+
+Unigram Validation Size :: 1000 Perplexity :: 130.7862311130034
+
+Bigram Validation Size :: 1000 Perplexity :: 938.0290417620753
+
+Trigram Validation Size :: 1000 Perplexity :: 62.951262407971
+
+Mixgram Validation Size :: 1000 Perplexity :: 16.838879057001762
+
+
+
+
+Train Corpus :: Gutenberg + Brown, Validation Corpus:: Gutenberg 
+Unigram Validation Size :: 50 Perplexity :: 81.47685652487428
+
+Bigram Validation Size :: 50 Perplexity :: 1647.6044754007585
+
+Trigram Validation Size :: 50 Perplexity :: 20.09052376468643
+
+Mixgram Validation Size :: 50 Perplexity :: 8.152449862064962
+
+Unigram Validation Size :: 200 Perplexity :: 81.47685652487428
+
+Bigram Validation Size :: 200 Perplexity :: 1357.4644535587042
+
+Trigram Validation Size :: 200 Perplexity :: 18.22053763470853
+
+Mixgram Validation Size :: 200 Perplexity :: 7.699478090192502
+
+Unigram Validation Size :: 500 Perplexity :: 81.47685652487479
+
+Bigram Validation Size :: 500 Perplexity :: 1377.341252151012
+
+Trigram Validation Size :: 500 Perplexity :: 20.82939947337736
+
+Mixgram Validation Size :: 500 Perplexity :: 8.210335074056959
+
+Unigram Validation Size :: 1000 Perplexity :: 81.47685652487453
+
+Bigram Validation Size :: 1000 Perplexity :: 1523.397723386885
+
+Trigram Validation Size :: 1000 Perplexity :: 28.145665772988337
+
+Mixgram Validation Size :: 1000 Perplexity :: 9.45630670882972
+
+
+
+
+
+
+Train Corpus :: Gutenberg + Brown, Validation Corpus:: Gutenberg 
+Mixgram Weights :: [0.1, 0.2, 0.7]
+Mixgram Validation Size :: 500 Perplexity :: 7.5680254072817545
+
+Mixgram Weights :: [0.1, 0.4, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 9.059885076189437
+
+Mixgram Weights :: [0.1, 0.1, 0.8]
+Mixgram Validation Size :: 500 Perplexity :: 7.092951072703974
+
+Mixgram Weights :: [0.2, 0.2, 0.6]
+Mixgram Validation Size :: 500 Perplexity :: 7.6031568871990105
+
+Mixgram Weights :: [0.2, 0.3, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 8.394124585443041
+
+Mixgram Weights :: [0.2, 0.4, 0.4]
+Mixgram Validation Size :: 500 Perplexity :: 9.477434292003704
+
+
+
+
+Train Corpus :: Gutenberg + Brown, Validation Corpus:: Brown 
+Mixgram Weights :: [0.1, 0.2, 0.7]
+Mixgram Validation Size :: 500 Perplexity :: 15.565515954461953
+
+Mixgram Weights :: [0.1, 0.4, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 17.734210889398106
+
+Mixgram Weights :: [0.1, 0.1, 0.8]
+Mixgram Validation Size :: 500 Perplexity :: 14.995322954161603
+
+Mixgram Weights :: [0.2, 0.2, 0.6]
+Mixgram Validation Size :: 500 Perplexity :: 14.802864078883374
+
+Mixgram Weights :: [0.2, 0.3, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 15.924330156897224
+
+Mixgram Weights :: [0.2, 0.4, 0.4]
+Mixgram Validation Size :: 500 Perplexity :: 17.50356204953738
+
+
+
+Train Corpus :: Gutenberg, Validation Corpus:: Brown 
+Mixgram Weights :: [0.1, 0.2, 0.7]
+Mixgram Validation Size :: 500 Perplexity :: 8.934562931859817
+
+Mixgram Weights :: [0.1, 0.4, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 901.1296888759598
+
+Mixgram Weights :: [0.1, 0.1, 0.8]
+Mixgram Validation Size :: 500 Perplexity :: 1012.2433421414077
+
+Mixgram Weights :: [0.2, 0.2, 0.6]
+Mixgram Validation Size :: 500 Perplexity :: 518.8655197417764
+
+Mixgram Weights :: [0.2, 0.3, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 503.7145111265648
+
+Mixgram Weights :: [0.2, 0.4, 0.4]
+Mixgram Validation Size :: 500 Perplexity :: 491.7088097043658
+
+
+
+Train Corpus :: Brown, Validation Corpus:: Gutenberg 
+Mixgram Weights :: [0.1, 0.2, 0.7]
+Mixgram Validation Size :: 500 Perplexity :: 9.594951297930384
+
+Mixgram Weights :: [0.1, 0.4, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 11.024271443730996
+
+Mixgram Weights :: [0.1, 0.1, 0.8]
+Mixgram Validation Size :: 500 Perplexity :: 9.16360974008353
+
+Mixgram Weights :: [0.2, 0.2, 0.6]
+Mixgram Validation Size :: 500 Perplexity :: 8.874547583283471
+
+Mixgram Weights :: [0.2, 0.3, 0.5]
+Mixgram Validation Size :: 500 Perplexity :: 9.584692744873903
+
+Mixgram Weights :: [0.2, 0.4, 0.4]
+Mixgram Validation Size :: 500 Perplexity :: 10.558338296096979
